@@ -1,0 +1,148 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>История чеков — Личный кабинет</title>
+  <link rel="stylesheet" href="{% static 'css/history.css' %}">
+</head>
+<body>
+<div class="receipt-shell">
+  <!-- Icon sprite: local SVG symbols, no icon library required. -->
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <symbol id="ri-chevron-left" viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ri-chevron-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ri-home" viewBox="0 0 24 24"><path d="m3.5 10 8.5-7 8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3.5 19z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 20.5v-7h6v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="ri-rules" viewBox="0 0 24 24"><path d="M5 4.5h14a1.8 1.8 0 0 1 1.8 1.8v10.2a1.8 1.8 0 0 1-1.8 1.8h-5l-4 3v-3H5a1.8 1.8 0 0 1-1.8-1.8V6.3A1.8 1.8 0 0 1 5 4.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 9a2 2 0 1 1 3.7 1c-.9 1.3-1.7 1.2-1.7 3M12 15.8v.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="ri-user" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="ri-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-2.5 7.5-2.5 9h17C20.5 16.5 18 16 18 9ZM10 21h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19.5" cy="4.5" r="2.2" fill="#5549ed" stroke="white" stroke-width="1"/></symbol>
+    <symbol id="ri-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="ri-sort" viewBox="0 0 24 24"><path d="M4 6h10M4 11h7M4 16h4M18 4v15m-3-3 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ri-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="currentColor"/><path d="M12 7v5l3.5 2" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="ri-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="m7.5 12.3 3 3 6-6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ri-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="m8.5 8.5 7 7m0-7-7 7" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ri-gift" viewBox="0 0 24 24"><path d="M3.5 10h17v10.5h-17zM2.5 6.5h19v4h-19zM12 6.5v14M12 6.5C7 7.5 5 2.5 8.5 2.5c2.6 0 3.5 4 3.5 4Zm0 0c5-5 8-1 5.5.7-1.2.8-3 .2-5.5-.7Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="ri-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 10.5v5M12 7.4v.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ri-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="ri-money" viewBox="0 0 24 24"><rect x="3" y="6" width="17" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="6.5" y="3" width="15" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="14" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="ri-receipt" viewBox="0 0 24 24"><path d="M6 3.5h12a1 1 0 0 1 1 1v16l-3-2-4 2-4-2-3 2v-17a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 8h7M8.5 12h7M8.5 16h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="ri-sort-chevrons" viewBox="0 0 24 24"><path d="m7 9 3-3 3 3M7 15l3 3 3-3M17 6v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="receipt-topbar">
+    <a class="receipt-brand" href="#" aria-label="Главная страница"></a>
+    <a class="receipt-back" href="#"><svg><use href="#ri-chevron-left"></use></svg>На сайт</a>
+    <nav class="receipt-topnav" aria-label="Основная навигация">
+      <a class="receipt-navlink is-active" href="#"><svg><use href="#ri-home"></use></svg>Личный кабинет</a>
+      <a class="receipt-navlink" href="#rules"><svg><use href="#ri-rules"></use></svg>Правила</a>
+      <a class="receipt-navlink" href="#profile"><svg><use href="#ri-user"></use></svg>Профиль</a>
+    </nav>
+    <div class="receipt-account-tools">
+      <button class="receipt-icon-button" type="button" aria-label="Уведомления" data-receipt-notifications><svg><use href="#ri-bell"></use></svg><span class="receipt-notice-dot"></span></button>
+      <div class="receipt-user">
+        <img src="{% static 'receipts/img/avatar.svg' %}" alt="">
+        <span><span class="receipt-user-name">{{ user.id|default:"Елена Иванова" }}</span><span class="receipt-user-email">{{ user.email|default:"nameuser@email.com" }}</span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="receipt-main">
+    <section class="receipt-card" aria-labelledby="receiptHistoryTitle">
+      <div class="receipt-page-heading">
+        <h1 class="receipt-page-title" id="receiptHistoryTitle">История чеков</h1>
+        <div class="receipt-count">Чеков внесено: <strong>{% if total_receipts %}{{ total_receipts }}{% else %}{{ receipts|length }}{% endif %} шт.</strong></div>
+      </div>
+
+      {% if receipts %}
+        <div class="receipt-table-wrap">
+          <table class="receipt-table">
+            <thead><tr>
+              <th><button class="receipt-sort" type="button" data-sort-index="0">Дата покупки <svg><use href="#ri-sort"></use></svg></button></th>
+              <th><button class="receipt-sort" type="button" data-sort-index="1">Статус <svg><use href="#ri-sort"></use></svg></button></th>
+              <th><button class="receipt-sort" type="button" data-sort-index="2">Сумма чека <svg><use href="#ri-sort"></use></svg></button></th>
+              <th><button class="receipt-sort" type="button" data-sort-index="3">Дата регистрации <svg><use href="#ri-sort"></use></svg></button></th>
+              <th><button class="receipt-sort" type="button" data-sort-index="4">Информация <svg><use href="#ri-sort"></use></svg></button></th>
+            </tr></thead>
+            <tbody>
+              {% for receipt in receipts %}
+              <tr>
+                <td><div class="receipt-purchase"><img class="receipt-qr" src="{% static 'img/qr-placeholder.svg' %}" alt="QR-код чека"><span class="receipt-date">{{ receipt.purchase_day|date:"H:i d.m.Y"|default:"00:00 00.00.0000" }}</span></div></td>
+                <td>
+                  {% if receipt.status == "..."%}<span class="receipt-status receipt-status--processed"><svg><use href="#ri-check-circle"></use></svg>Обработан</span>
+                  {% elif receipt.status == "NO"%}<span class="receipt-status receipt-status--error"><svg><use href="#ri-x-circle"></use></svg>Ошибка</span>
+                  {% elif receipt.status == "OK"%}<span class="receipt-status receipt-status--won"><svg><use href="#ri-gift"></use></svg>Вы выиграли</span>
+                  {% else %}<span class="receipt-status receipt-status--processing"><svg><use href="#ri-clock"></use></svg>В обработке</span>{% endif %}
+                </td>
+                <td><span class="receipt-money"><svg><use href="#ri-money"></use></svg>{{ receipt.total_sum|default:"12 000" }} ₽</span></td>
+                <td><span class="receipt-reg-date"><svg><use href="#ri-calendar"></use></svg>{{ receipt.registered_at|date:"H:i d.m.Y"|default:"00:00 00.00.0000" }}</span></td>
+                <td><div class="receipt-info"><svg><use href="#ri-info"></use></svg><span>{% if receipt.info %}{{ receipt.info }}{% elif receipt.status == "NO"%}Минимальная стоимость чека должна составлять 1 000 ₽. <a href="#rules" data-receipt-more-info>Подробнее</a>{% elif receipt.status == "OK"%}Поздравляем, ваш чек выиграл!{% elif receipt.status == "..." %}&nbsp;{% else %}Чек в обработке{% endif %}</span></div></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="receipt-pagination" aria-label="Страницы истории чеков">
+          {% if page_obj.has_previous %}<a class="receipt-page-btn" href="?page={{ page_obj.previous_page_number }}" aria-label="Предыдущая страница"><svg><use href="#ri-chevron-left"></use></svg></a>{% endif %}
+          {% for page_num in page_obj.paginator.page_range %}
+            {% if page_num == page_obj.number %}<span class="receipt-page-btn is-active" aria-current="page">{{ page_num }}</span>
+            {% elif page_num <= 4 or page_num == page_obj.paginator.num_pages %}<a class="receipt-page-btn" href="?page={{ page_num }}" data-receipt-page="{{ page_num }}">{{ page_num }}</a>
+            {% elif page_num == 5 %}<span class="receipt-pagination-ellipsis">…</span>{% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}<a class="receipt-page-btn" href="?page={{ page_obj.next_page_number }}" aria-label="Следующая страница"><svg><use href="#ri-chevron-right"></use></svg></a>{% endif %}
+        </nav>
+        {% endif %}
+        <div class="receipt-footer">
+          <div class="receipt-tip"><svg><use href="#ri-info"></use></svg><span>Иногда проверка вашего чека может занять до 5 рабочих дней</span></div>
+          <button class="receipt-primary-btn receipt-register-button" type="button" data-open-receipt-registration><svg><use href="#ri-receipt"></use></svg>Зарегистрировать чек</button>
+        </div>
+      {% else %}
+        <div class="receipt-empty-state">
+          <img src="{% static 'img/empty-receipts.svg' %}" alt="">
+          <h2 class="receipt-empty-title">Здесь будет история ваших чеков</h2>
+          <p class="receipt-empty-subtitle">Вы не добавили еще ни одного чека</p>
+          <button class="receipt-primary-btn receipt-empty-button" type="button" data-open-receipt-registration><svg><use href="#ri-receipt"></use></svg>Зарегистрировать чек</button>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+</div>
+{% if messages %}
+    {% for message in messages %}
+        {% if "receipt_created" in message.tags %}
+            <div id="receiptCreatedNotice" hidden></div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<div class="receipt-modal-layer" id="receiptRegistration" aria-hidden="true">
+  <section class="receipt-modal" role="dialog" aria-modal="true" aria-labelledby="receiptModalTitle" aria-describedby="receiptModalDescription">
+    <button class="receipt-modal-close" type="button" aria-label="Закрыть" data-close-receipt-modal><svg><use href="#ri-close"></use></svg></button>
+    <h2 class="receipt-modal-title" id="receiptModalTitle">Регистрация чека</h2>
+    <p class="receipt-modal-description" id="receiptModalDescription">Введите необходимые данные с чека</p>
+    <form id="receiptRegistrationForm" action="{% url 'receipt:get-post-receipts' %}" enctype="multipart/form-data" method="POST" novalidate>
+      {% csrf_token %}
+      <div class="receipt-field"><label for="fn_value">ФН</label>{{receipt_form.fn_value}}<p class="receipt-field-error"></p></div>
+      <div class="receipt-field"><label for="fd_value">Номер чека</label>{{receipt_form.fd_value}}<p class="receipt-field-error"></p></div>
+      <div class="receipt-field"><label for="fp_value">ФП</label>{{receipt_form.fp_value}}<p class="receipt-field-error"></p></div>
+      <div class="receipt-field"><label for="purchase_day">Дата покупки</label>{{receipt_form.purchase_day}}<p class="receipt-field-error"></p></div>
+      <div class="receipt-field"><label for="total_sum">Сумма</label>{{receipt_form.total_sum}}<p class="receipt-field-error"></p></div>
+      <div class="receipt-form-error" id="receiptFormError" role="alert"></div>
+      <button class="receipt-primary-btn receipt-upload-button" type="submit">Загрузить</button>
+    </form>
+  </section>
+</div>
+
+<div class="receipt-modal-layer" id="receiptSuccess" aria-hidden="true">
+  <section class="receipt-modal receipt-success-modal" role="dialog" aria-modal="true" aria-labelledby="receiptSuccessTitle">
+    <div class="receipt-success-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.5 4.5L19.5 6.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2 class="receipt-success-title" id="receiptSuccessTitle">Ваш чек загружен</h2>
+    <p class="receipt-success-description">Мы уже начали анализировать ваши покупки.<br>Это займет всего пару секунд.</p>
+    <button class="receipt-primary-btn receipt-success-button" type="button" data-success-home>На главную</button>
+  </section>
+</div>
+<div class="receipt-toast" id="receiptToast" role="status" aria-live="polite"><strong>Уведомление</strong><span></span></div>
+<script src="{% static 'js/history.js' %}" defer></script>
+</body>
+</html>

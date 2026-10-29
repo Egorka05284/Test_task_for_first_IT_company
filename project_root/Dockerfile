@@ -1,5 +1,5 @@
 # Stage 1: Build dependencies
-FROM python:3.13 AS builder
+FROM python:3.13-slim AS builder
 
 RUN mkdir /app
 
@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 # Stage 2: Production
-FROM python:3.13
+FROM python:3.13-slim
 
 RUN useradd -m -r appuser && \
     mkdir /app && \
@@ -44,8 +44,6 @@ RUN mkdir -p /app/staticfiles && \
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
-
-# Collect static files inside the image
 
 
 USER appuser

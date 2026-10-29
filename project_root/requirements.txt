@@ -6,3 +6,4 @@ pip==26.2.1
 python-dotenv==1.2.4
 sqlparse==0.6.0
 tzdata==2026.5
+whitenoise==6.8.2
