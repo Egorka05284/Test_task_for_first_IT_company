@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 
 
 class ReceiptForm(forms.Form):
@@ -40,3 +42,14 @@ class ReceiptForm(forms.Form):
         "name": "purchase_day", 
         "type": "datetime-local"
     }))
+
+
+class UserLoginForm(AuthenticationForm):
+    class Meta:
+        model = User
+
+
+class UserSignUpForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')

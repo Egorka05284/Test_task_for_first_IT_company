@@ -1,14 +1,15 @@
 from datetime import datetime
 from typing import Any
+from django.contrib import auth
 from zoneinfo import ZoneInfo
 from django.http import HttpRequest
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import redirect
-from django.urls import reverse
-from django.views.generic import CreateView, TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.views import LoginView
 from .models import Receipt
-from .forms import ReceiptForm
+from .forms import ReceiptForm, UserLoginForm, UserSignUpForm
 from django.contrib import messages
 from promo.settings import START_PROMO, END_PROMO
 
@@ -31,7 +32,7 @@ class ReceiptAddAndSeeView(TemplateView):
     
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         if not self.request.user.is_authenticated:
-            return HttpResponse("<h1>Log in first</h1>")
+            return redirect(reverse('receipt:login'))
         return super().get(request, **kwargs)
     
     def post(self, request, *args, **kwargs):
@@ -77,3 +78,27 @@ class ReceiptAddAndSeeView(TemplateView):
         context["receipt_form"] = receipt_form
         return self.render_to_response(context)
 
+
+class UserLoginView(LoginView):
+    template_name = "receipt/auth.html"
+    form_class = UserLoginForm
+    next_page = reverse_lazy("receipt:get-post-receipts")
+    
+
+
+class UserSignUpView(CreateView):
+    template_name = "receipt/auth.html"
+    form_class = UserSignUpForm
+    success_url = reverse_lazy("receipt:get-post-receipts")
+    
+    def form_valid(self, form):
+        user = form.instance
+
+        if user:
+            form.save()
+            auth.login(self.request, user)
+            return redirect(self.success_url)
+
+
+class ResetPasswordView(TemplateView):
+    pass

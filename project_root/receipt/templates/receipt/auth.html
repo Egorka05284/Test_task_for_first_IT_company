@@ -1,0 +1,152 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Sign in or create an account</title>
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+  <script src="{% static 'js/auth.js' %}" defer></script>
+</head>
+<body>
+  <main class="auth-layout" data-active="{{ active_form|default:'login' }}">
+    <aside class="welcome-panel" aria-label="Welcome">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>Northstar</span>
+      </a>
+
+      <div class="welcome-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> YOUR NEXT CHAPTER STARTS HERE</span>
+        <h1>A little more<br>room to <em>grow.</em></h1>
+        <p>Bring your plans, ideas, and everyday progress into one calm, focused space.</p>
+      </div>
+
+      <div class="preview-card" aria-hidden="true">
+        <div class="preview-card-top">
+          <span class="preview-label">YOUR SPACE</span>
+          <span class="preview-status"><span></span> Looking good</span>
+        </div>
+        <div class="preview-title">Good things<br>take shape here.</div>
+        <div class="preview-bottom">
+          <div class="avatar-stack"><span>J</span><span>M</span><span>A</span></div>
+          <span>One step at a time</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="welcome-footer"><span>MAKE SPACE FOR WHAT MATTERS</span><span>01 — 02</span></div>
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="grid-glow"></div>
+    </aside>
+
+    <section class="form-panel">
+      <div class="mobile-brand">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>Northstar</span>
+      </div>
+
+      <div class="form-wrap">
+        <div class="form-heading">
+          <span class="form-kicker">WELCOME</span>
+          <h2 id="form-title">Welcome back</h2>
+          <p id="form-subtitle">Sign in to pick up where you left off.</p>
+        </div>
+
+        {% if messages %}
+          <div class="message-list" aria-live="polite">
+            {% for message in messages %}
+              <div class="message message-{{ message.tags|default:'info' }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="auth-tabs" role="tablist" aria-label="Account access">
+          <button class="auth-tab is-active" type="button" role="tab" id="tab-login" aria-selected="true" aria-controls="panel-login" data-auth-tab="login">Log in</button>
+          <button class="auth-tab" type="button" role="tab" id="tab-register" aria-selected="false" aria-controls="panel-register" data-auth-tab="register">Create account</button>
+          <span class="tab-indicator" aria-hidden="true"></span>
+        </div>
+
+        <section class="auth-panel" id="panel-login" role="tabpanel" aria-labelledby="tab-login" data-auth-panel="login">
+          <form method="post" action="{% url 'receipt:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+            {% if login_form.non_field_errors %}
+              <div class="form-errors" role="alert">{{ login_form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="field-group">
+              <label for="login-username">Username</label>
+              <input id="login-username" name="username" type="text" placeholder="Your username" autocomplete="username" required value="{{ login_form.username.value|default:'' }}" {% if login_form.username.errors %}aria-invalid="true" aria-describedby="login-username-error"{% endif %}>
+              {% if login_form.username.errors %}<div class="field-error" id="login-username-error">{{ login_form.username.errors }}</div>{% endif %}
+            </div>
+
+            <div class="field-group">
+              <div class="label-row"><label for="login-password">Password</label><a class="subtle-link" href="{% url 'receipt:password_reset' %}">Forgot password?</a></div>
+              <div class="password-wrap">
+                <input id="login-password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required {% if login_form.password.errors %}aria-invalid="true" aria-describedby="login-password-error"{% endif %}>
+                <button class="password-toggle" type="button" data-password-toggle="login-password" aria-label="Show password">Show</button>
+              </div>
+              {% if login_form.password.errors %}<div class="field-error" id="login-password-error">{{ login_form.password.errors }}</div>{% endif %}
+            </div>
+
+            <button class="submit-button" type="submit">Sign in <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="switch-prompt">New around here? <button type="button" class="text-button" data-auth-tab="register">Create an account</button></p>
+        </section>
+
+        <section class="auth-panel" id="panel-register" role="tabpanel" aria-labelledby="tab-register" data-auth-panel="register" hidden>
+          <form method="post" action="{% url 'receipt:register' %}">
+            {% csrf_token %}
+
+            {% if register_form.non_field_errors %}
+              <div class="form-errors" role="alert">{{ register_form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="field-group">
+              <label for="register-username">Username</label>
+              <input id="register-username" name="username" type="text" placeholder="Choose a username" autocomplete="username" required value="{{ register_form.username.value|default:'' }}" {% if register_form.username.errors %}aria-invalid="true" aria-describedby="register-username-error"{% endif %}>
+              {% if register_form.username.errors %}<div class="field-error" id="register-username-error">{{ register_form.username.errors }}</div>{% endif %}
+            </div>
+
+            <div class="field-group">
+              <label for="register-email">Email address</label>
+              <input id="register-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required value="{{ register_form.email.value|default:'' }}" {% if register_form.email.errors %}aria-invalid="true" aria-describedby="register-email-error"{% endif %}>
+              {% if register_form.email.errors %}<div class="field-error" id="register-email-error">{{ register_form.email.errors }}</div>{% endif %}
+            </div>
+
+            <div class="field-group">
+              <label for="register-password1">Password</label>
+              <div class="password-wrap">
+                <input id="register-password1" name="password1" type="password" placeholder="Create a password" autocomplete="new-password" required {% if register_form.password1.errors %}aria-invalid="true" aria-describedby="register-password1-error"{% endif %}>
+                <button class="password-toggle" type="button" data-password-toggle="register-password1" aria-label="Show password">Show</button>
+              </div>
+              {% if register_form.password1.errors %}<div class="field-error" id="register-password1-error">{{ register_form.password1.errors }}</div>{% endif %}
+              <span class="field-hint">Use at least 8 characters. Avoid common or easily guessed passwords.</span>
+            </div>
+
+            <div class="field-group">
+              <label for="register-password2">Confirm password</label>
+              <div class="password-wrap">
+                <input id="register-password2" name="password2" type="password" placeholder="Enter your password again" autocomplete="new-password" required {% if register_form.password2.errors %}aria-invalid="true" aria-describedby="register-password2-error"{% endif %}>
+                <button class="password-toggle" type="button" data-password-toggle="register-password2" aria-label="Show password">Show</button>
+              </div>
+              {% if register_form.password2.errors %}<div class="field-error" id="register-password2-error">{{ register_form.password2.errors }}</div>{% endif %}
+            </div>
+
+            <button class="submit-button" type="submit">Create account <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="switch-prompt">Already have an account? <button type="button" class="text-button" data-auth-tab="login">Log in</button></p>
+        </section>
+
+        <div class="form-legal">By continuing, you agree to use this service responsibly.</div>
+      </div>
+
+      <footer class="page-footer"><span>© {% now "Y" %} Northstar</span><span>Designed for a clearer day.</span></footer>
+    </section>
+  </main>
+</body>
+</html>
