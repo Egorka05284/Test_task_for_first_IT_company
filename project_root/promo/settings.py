@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from datetime import date
 import os
 from os import getenv
 from pathlib import Path
@@ -80,8 +81,12 @@ WSGI_APPLICATION = 'promo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv('POSTGRES_DATABASE'),
+        'HOST': getenv('POSTGRES_HOST'),
+        'PASSWORD': getenv('POSTGRES_PASSWORD'),
+        'USER': getenv('POSTGRES_USER'),
+        'PORT': getenv('POSTGRES_PORT')
     }
 }
 
@@ -123,3 +128,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+START_PROMO = getenv('START_PROMO')
+END_PROMO = getenv('END_PROMO')
