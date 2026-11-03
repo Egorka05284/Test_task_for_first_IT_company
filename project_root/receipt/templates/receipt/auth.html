@@ -85,7 +85,7 @@
             </div>
 
             <div class="field-group">
-              <div class="label-row"><label for="login-password">Password</label><a class="subtle-link" href="{% url 'receipt:password_reset' %}">Forgot password?</a></div>
+              <div class="label-row"><label for="login-password">Password</label><a class="subtle-link" href="{% url 'receipt:password-reset' %}">Forgot password?</a></div>
               <div class="password-wrap">
                 <input id="login-password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required {% if login_form.password.errors %}aria-invalid="true" aria-describedby="login-password-error"{% endif %}>
                 <button class="password-toggle" type="button" data-password-toggle="login-password" aria-label="Show password">Show</button>

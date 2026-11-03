@@ -1,4 +1,3 @@
-from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -25,6 +24,13 @@ class Receipt(models.Model):
     class Meta:
         verbose_name_plural = "Чеки"
         verbose_name = "Чек"
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=['fn_value', 'fd_value', 'fp_value'], 
+                name='unique_receipt_fn_fd_fp'
+            )
+        ]
 
     def __str__(self):
         return f"Receipt №{self.pk}: {self.fn_value}"

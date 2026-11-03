@@ -97,6 +97,7 @@
         {% endif %}
         <div class="receipt-footer">
           <div class="receipt-tip"><svg><use href="#ri-info"></use></svg><span>Иногда проверка вашего чека может занять до 5 рабочих дней</span></div>
+          <button id="load-btn" class="receipt-primary-btn" type="button">Загрузить чеки</button>
           <button class="receipt-primary-btn receipt-register-button" type="button" data-open-receipt-registration><svg><use href="#ri-receipt"></use></svg>Зарегистрировать чек</button>
         </div>
       {% else %}
@@ -144,6 +145,7 @@
   </section>
 </div>
 <div class="receipt-toast" id="receiptToast" role="status" aria-live="polite"><strong>Уведомление</strong><span></span></div>
+<div id="receipts-container" style="text-align: center; border: 1px solid black;"></div>
 <script src="{% static 'js/history.js' %}" defer></script>
 </body>
 </html>

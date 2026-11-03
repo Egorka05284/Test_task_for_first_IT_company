@@ -320,3 +320,51 @@
     });
   });
 })();
+
+async function loadProtectedData() {
+    const url = '/api/receipts/'; // Shared domain, trailing slash included
+    const container = document.getElementById('receipts-container');
+    
+    container.innerHTML = 'Loading...';
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        // ⚠️ CRITICAL: Forces fetch to send the logged-in user's session cookie to DRF
+        credentials: 'same-origin' 
+      });
+
+      if (!response.ok) {
+        if (response.status === 403 || response.status === 401) {
+          throw new Error("You must be logged in to view this data.");
+        }
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+
+      const receipts = await response.json();
+      
+      // Clear loading text and render data
+      container.innerHTML = '';
+      
+      if (receipts.length === 0) {
+        container.innerHTML = '<p>No receipts found.</p>';
+        return;
+      }
+
+      // Build a simple list of the returned DRF objects
+      const ul = document.createElement('ul');
+      receipts.forEach(receipt => {
+        const li = document.createElement('li');
+        li.textContent = `${receipt.id}, ${receipt.fn_value}, ${receipt.fd_value}, ${receipt.fp_value}, ${receipt.total_sum}, ${receipt.status}`;
+        ul.appendChild(li);
+      });
+      container.appendChild(ul);
+
+    } catch (error) {
+      console.error('Fetch Error:', error);
+      container.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+    }
+  }
+
+  // Event listener to trigger the fetch
+  document.getElementById('load-btn').addEventListener('click', loadProtectedData);

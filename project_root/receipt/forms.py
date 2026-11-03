@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Receipt
 
 
 class ReceiptForm(forms.Form):
@@ -42,6 +43,19 @@ class ReceiptForm(forms.Form):
         "name": "purchase_day", 
         "type": "datetime-local"
     }))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        fn = cleaned_data.get('fn_value')
+        fd = cleaned_data.get('fd_value')
+        fp = cleaned_data.get('fp_value')
+
+        # Check whether these combo is unique.
+        if fn and fd and fp:
+            if Receipt.objects.filter(fn_value=fn, fd_value=fd, fp_value=fp).exists():
+                raise forms.ValidationError("Чек с такими данными ФН, ФД и ФП уже зарегистрирован.")
+        
+        return cleaned_data
 
 
 class UserLoginForm(AuthenticationForm):

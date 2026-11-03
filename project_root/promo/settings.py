@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'receipt',
+
+
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

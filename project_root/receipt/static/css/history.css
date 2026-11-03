@@ -196,3 +196,11 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .receipt-toast { top: 16px; right: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+
+
+#receipts-container > ul {
+  border: 1px solid red;
+  text-align: center;
+  margin-left: 35%;
+  margin-right: 35%;
+}
