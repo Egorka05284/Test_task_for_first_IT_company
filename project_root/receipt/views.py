@@ -72,11 +72,11 @@ class ReceiptAddAndSeeView(TemplateView):
                     extra_tags="receipt_created",
                 )
             
-                return redirect(reverse("receipt:get-post-receipts"))
+            return redirect(reverse("receipt:get-post-receipts"))
 
-            context = self.get_context_data(**kwargs)
-            context["receipt_form"] = receipt_form
-            return self.render_to_response(context)
+        context = self.get_context_data(**kwargs)
+        context["receipt_form"] = receipt_form
+        return self.render_to_response(context)
 
 
 class UserLoginView(LoginView):
